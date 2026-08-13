@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kristel Talaver — Solutions & Support Engineer</title>
+<meta name="description" content="Self-taught developer who builds, ships, and debugs production software. Builder and operator of VaultContext, a live Google Calendar conflict-detection SaaS.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0F1C2E;
+    --ink-soft: #1B2C42;
+    --paper: #FBFCFD;
+    --paper-2: #F1F5F9;
+    --line: #E2E8F0;
+    --line-strong: #CBD5E1;
+    --text: #1B2C42;
+    --text-soft: #56677D;
+    --text-faint: #8497AC;
+    --accent: #1E6FD9;
+    --accent-deep: #14508F;
+    --resolved: #0F9D6B;
+    --resolved-bg: #E7F6EF;
+    --symptom: #B8761A;
+    --symptom-bg: #FCF3E3;
+    --radius: 14px;
+    --maxw: 1080px;
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--text);
+    background: var(--paper);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+
+  /* ---------- eyebrow / mono labels ---------- */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  /* ---------- top bar ---------- */
+  .topbar {
+    border-bottom: 1px solid var(--line);
+    background: rgba(251,252,253,0.85);
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .topbar .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 62px;
+  }
+  .brand {
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand .dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--resolved);
+    box-shadow: 0 0 0 3px var(--resolved-bg);
+  }
+  .topnav { display: flex; gap: 26px; align-items: center; }
+  .topnav a {
+    font-size: 14px;
+    color: var(--text-soft);
+    font-weight: 500;
+    transition: color .15s;
+  }
+  .topnav a:hover { color: var(--accent); }
+  .topnav .status {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--resolved);
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .topnav .status .pulse {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--resolved);
+    position: relative;
+  }
+  .topnav .status .pulse::after {
+    content:''; position:absolute; inset:0; border-radius:50%;
+    background: var(--resolved); opacity:.5;
+    animation: pulse 2.4s ease-out infinite;
+  }
+  @keyframes pulse {
+    0% { transform: scale(1); opacity:.5; }
+    70% { transform: scale(3); opacity:0; }
+    100% { opacity:0; }
+  }
+  @media (max-width: 680px) { .topnav a:not(.status) { display:none; } }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 88px 0 64px; }
+  .hero .eyebrow { margin-bottom: 22px; }
+  .hero h1 {
+    font-size: clamp(34px, 6vw, 58px);
+    line-height: 1.05;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    max-width: 15ch;
+  }
+  .hero h1 .accent {
+    color: var(--accent);
+    position: relative;
+    white-space: nowrap;
+  }
+  .hero .sub {
+    margin-top: 26px;
+    font-size: clamp(17px, 2.2vw, 20px);
+    color: var(--text-soft);
+    max-width: 56ch;
+    line-height: 1.55;
+  }
+  .hero .sub strong { color: var(--text); font-weight: 600; }
+
+  .actions {
+    margin-top: 38px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 14.5px;
+    font-weight: 600;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    transition: transform .12s ease, box-shadow .15s ease, background .15s, border-color .15s, color .15s;
+    cursor: pointer;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 1px 2px rgba(15,28,46,.16), 0 6px 18px -8px rgba(30,111,217,.55);
+  }
+  .btn-primary:hover { background: var(--accent-deep); }
+  .btn-ghost {
+    background: #fff;
+    color: var(--text);
+    border-color: var(--line-strong);
+  }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .btn .arrow { font-size: 15px; line-height: 1; }
+  .btn svg { width: 16px; height: 16px; }
+
+  /* ---------- what this is ---------- */
+  .intro {
+    padding: 20px 0 68px;
+  }
+  .intro-card {
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    background: var(--paper-2);
+    border-radius: var(--radius);
+    padding: 30px 34px;
+  }
+  .intro-card p {
+    font-size: 16.5px;
+    color: var(--text-soft);
+    line-height: 1.65;
+    max-width: 74ch;
+  }
+  .intro-card p strong { color: var(--text); font-weight: 600; }
+  .intro-card p + p { margin-top: 14px; }
+
+  /* ---------- section header ---------- */
+  .section { padding: 20px 0 40px; }
+  .section-head { margin-bottom: 34px; }
+  .section-head .eyebrow { margin-bottom: 12px; }
+  .section-head h2 {
+    font-size: clamp(24px, 3.4vw, 32px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .section-head p {
+    margin-top: 12px;
+    color: var(--text-soft);
+    font-size: 16px;
+    max-width: 64ch;
+  }
+
+  /* ---------- incident cards ---------- */
+  .incidents {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 760px) { .incidents { grid-template-columns: 1fr; } }
+
+  .incident {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fff;
+    padding: 24px 24px 22px;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow .18s ease, border-color .18s ease, transform .18s ease;
+  }
+  .incident:hover {
+    box-shadow: 0 10px 34px -18px rgba(15,28,46,.30);
+    border-color: var(--line-strong);
+    transform: translateY(-2px);
+  }
+  .incident-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .incident-id {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-faint);
+    letter-spacing: 0.02em;
+  }
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 9px;
+    border-radius: 6px;
+    letter-spacing: 0.03em;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tag.resolved { background: var(--resolved-bg); color: var(--resolved); }
+  .tag.resolved .tick { width:5px; height:5px; border-radius:50%; background: var(--resolved); }
+  .tag.scoped { background: var(--symptom-bg); color: var(--symptom); }
+  .tag.scoped .tick { width:5px; height:5px; border-radius:50%; background: var(--symptom); }
+
+  .incident h3 {
+    font-size: 17.5px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+  .trace { margin-top: 2px; }
+  .trace-row {
+    display: flex;
+    gap: 12px;
+    padding: 7px 0;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .trace-row + .trace-row { border-top: 1px dashed var(--line); }
+  .trace-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-faint);
+    flex: 0 0 62px;
+    padding-top: 2px;
+  }
+  .trace-body { color: var(--text-soft); flex: 1; }
+  .trace-body code {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 1px 6px;
+    color: var(--accent-deep);
+    white-space: nowrap;
+  }
+  .trace-body .rootcause { color: var(--text); font-weight: 500; }
+
+  /* ---------- decisions strip ---------- */
+  .decisions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 8px;
+  }
+  @media (max-width: 760px) { .decisions { grid-template-columns: 1fr; } }
+  .decision {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--paper-2);
+    padding: 22px 22px;
+  }
+  .decision .k {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .decision h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .decision p {
+    font-size: 14px;
+    color: var(--text-soft);
+    line-height: 1.55;
+  }
+
+  /* ---------- stack / meta row ---------- */
+  .metarow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 26px;
+  }
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--text-soft);
+    border: 1px solid var(--line);
+    background: #fff;
+    border-radius: 8px;
+    padding: 7px 12px;
+  }
+
+  /* ---------- CTA / resumes ---------- */
+  .cta {
+    margin: 30px 0 20px;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background:
+      linear-gradient(180deg, #fff 0%, var(--paper-2) 100%);
+    padding: 44px 40px;
+  }
+  .cta h2 {
+    font-size: clamp(22px, 3vw, 28px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    max-width: 22ch;
+  }
+  .cta p {
+    margin-top: 12px;
+    color: var(--text-soft);
+    font-size: 16px;
+    max-width: 60ch;
+  }
+  .cta-actions {
+    margin-top: 26px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .resume-note {
+    margin-top: 16px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-faint);
+  }
+
+  /* ---------- footer ---------- */
+  footer {
+    border-top: 1px solid var(--line);
+    margin-top: 40px;
+    padding: 30px 0 60px;
+  }
+  footer .wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  footer .name { font-weight: 700; color: var(--ink); font-size: 15px; }
+  footer .loc { font-size: 13.5px; color: var(--text-faint); }
+  footer .flinks { display: flex; gap: 22px; }
+  footer .flinks a { font-size: 14px; color: var(--text-soft); font-weight: 500; }
+  footer .flinks a:hover { color: var(--accent); }
+
+  /* ---------- reveal (progressive enhancement: only hides when JS is present) ---------- */
+  .js .reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+  .js .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .topnav .status .pulse::after { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="wrap">
+      <div class="brand"><span class="dot"></span> Kristel Talaver</div>
+      <nav class="topnav">
+        <a href="#work">Work</a>
+        <a href="#incidents">Debugging</a>
+        <a href="https://vaultcontext.online" target="_blank" rel="noopener" class="status"><span class="pulse"></span>vaultcontext.online · live</a>
+      </nav>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="wrap">
+      <div class="eyebrow reveal">Solutions&nbsp;&amp;&nbsp;Support Engineer&nbsp;&nbsp;/&nbsp;&nbsp;Hanoi, VN</div>
+      <h1 class="reveal">I don't just build things — <span class="accent">I diagnose them when they break.</span></h1>
+      <p class="sub reveal">I'm Kristel — a self-taught developer moving into solutions and support engineering. I built and operate <strong>VaultContext</strong>, a live Google Calendar conflict-detection SaaS. This page is how I think through building, breaking, and fixing real systems in production.</p>
+      <div class="actions reveal">
+        <a class="btn btn-primary" href="https://wirehaired-isthmus-fd3.notion.site/VaultContext-Case-Study-3af6c9359d7f80e0b6b3cd4e93717a73" target="_blank" rel="noopener">Read the case study <span class="arrow">→</span></a>
+        <a class="btn btn-ghost" href="https://vaultcontext.online" target="_blank" rel="noopener">Open the live app</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/kristel-talaver/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="intro" id="work">
+    <div class="wrap">
+      <div class="intro-card reveal">
+        <p><strong>VaultContext is not a tutorial project.</strong> It's a read-only calendar conflict detector I designed, shipped, and keep running in production — OAuth 2.0, push-notification webhooks, a Postgres database, and deterministic timestamp logic that replaced an unreliable AI prototype.</p>
+        <p>The point of building it wasn't the feature list. It was proving I can design a system, diagnose it when it fails in ways a demo never would, and make the judgment calls — what to build, what to defer, and what to cut.</p>
+        <div class="metarow">
+          <span class="chip">Node / Express</span>
+          <span class="chip">Supabase (Postgres)</span>
+          <span class="chip">Google Calendar API</span>
+          <span class="chip">OAuth 2.0</span>
+          <span class="chip">Resend</span>
+          <span class="chip">Push webhooks</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="incidents">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">Selected debugging</div>
+        <h2>Four failures, traced to root cause</h2>
+        <p>Each one is real, verified live, and recorded in git history. The method was the same every time: reproduce it, read the evidence, fix the actual cause — or decide it isn't worth fixing.</p>
+      </div>
+
+      <div class="incidents">
+
+        <article class="incident reveal">
+          <div class="incident-top">
+            <span class="incident-id">INCIDENT · 01</span>
+            <span class="tag resolved"><span class="tick"></span>RESOLVED</span>
+          </div>
+          <h3>I was wrong about my own logic</h3>
+          <div class="trace">
+            <div class="trace-row"><span class="trace-label">Symptom</span><span class="trace-body">A real 15-min overlap was mislabeled as a harmless <code>Gap: 0 min</code>.</span></div>
+            <div class="trace-row"><span class="trace-label">Trace</span><span class="trace-body">My tests only ever used overlaps &gt; 30 min, so they never hit the broken branch. I doubted logic I'd already shipped and documented as correct.</span></div>
+            <div class="trace-row"><span class="trace-label">Cause</span><span class="trace-body"><span class="rootcause">A threshold split — <code>overlapMinutes &gt;= 30</code> — routed small overlaps into the wrong tier. Fixed structurally so the branch can't recur.</span></span></div>
+          </div>
+        </article>
+
+        <article class="incident reveal">
+          <div class="incident-top">
+            <span class="incident-id">INCIDENT · 02</span>
+            <span class="tag resolved"><span class="tick"></span>RESOLVED</span>
+          </div>
+          <h3>The failure that happened before my code ran</h3>
+          <div class="trace">
+            <div class="trace-row"><span class="trace-label">Symptom</span><span class="trace-body">A request failed, but the server logs were completely silent.</span></div>
+            <div class="trace-row"><span class="trace-label">Trace</span><span class="trace-body">Silence was the clue — no log line meant the request never reached the server. Command-line tests passed because they aren't browsers.</span></div>
+            <div class="trace-row"><span class="trace-label">Cause</span><span class="trace-body"><span class="rootcause">A cross-origin preflight the server wasn't answering. "No error in the logs" meant the failure happened before my code ever ran.</span></span></div>
+          </div>
+        </article>
+
+        <article class="incident reveal">
+          <div class="incident-top">
+            <span class="incident-id">INCIDENT · 03</span>
+            <span class="tag resolved"><span class="tick"></span>RESOLVED</span>
+          </div>
+          <h3>The phantom 24-hour event</h3>
+          <div class="trace">
+            <div class="trace-row"><span class="trace-label">Symptom</span><span class="trace-body">Normal meetings flagged as overlapping a full 24-hour block that didn't exist.</span></div>
+            <div class="trace-row"><span class="trace-label">Trace</span><span class="trace-body">All-day events arrive from Google as a bare date, not a timestamp — parsed as midnight UTC, which in UTC+7 stretched into a phantom day-long span.</span></div>
+            <div class="trace-row"><span class="trace-label">Cause</span><span class="trace-body"><span class="rootcause">A timezone parsing defect affecting every non-local user. Filtered all-day events at the source — a product decision, not a patch.</span></span></div>
+          </div>
+        </article>
+
+        <article class="incident reveal">
+          <div class="incident-top">
+            <span class="incident-id">INCIDENT · 04</span>
+            <span class="tag scoped"><span class="tick"></span>SCOPED OUT</span>
+          </div>
+          <h3>The write that silently did nothing</h3>
+          <div class="trace">
+            <div class="trace-row"><span class="trace-label">Symptom</span><span class="trace-body">A wired-up button did nothing on click — no change, no error shown.</span></div>
+            <div class="trace-row"><span class="trace-label">Trace</span><span class="trace-body">The write returned <code>204 No Content</code> but changed zero rows; tightening security made it <code>42501</code>. Decoded the live token, verified ownership in SQL — every layer matched.</span></div>
+            <div class="trace-row"><span class="trace-label">Cause</span><span class="trace-body"><span class="rootcause">Reproduced the rejection in pure SQL — a row-level-security interaction, not my front-end. Then cut the feature: it was redundant, and knowing when to stop is part of the job.</span></span></div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow">Decisions I can defend</div>
+        <h2>Judgment over knowledge</h2>
+        <p>AI supplied syntax I didn't have. Every architectural decision, verification, and trade-off was mine.</p>
+      </div>
+      <div class="decisions">
+        <div class="decision reveal">
+          <div class="k">SAFETY</div>
+          <h4>Read-only on purpose</h4>
+          <p>The system suggests and confirms; it never edits a user's calendar. A bug sends a wrong email, not a corrupted schedule. Auto-reschedule is a deliberate, deferred next step.</p>
+        </div>
+        <div class="decision reveal">
+          <div class="k">RELIABILITY</div>
+          <h4>Math, not a language model</h4>
+          <p>Whether two events overlap is arithmetic — it must be exact every time. I use AI for knowledge I lack, never for a runtime decision that has to be right. That line was drawn deliberately.</p>
+        </div>
+        <div class="decision reveal">
+          <div class="k">DURABILITY</div>
+          <h4>Documented over clever</h4>
+          <p>I chose Google's stable template URL over an undocumented trick that could edit directly. Built to still work in a year, not just to demo today.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="cta reveal">
+        <h2>Looking for a solutions or support engineer who debugs from evidence.</h2>
+        <p>Five years in technical support, now paired with a live production SaaS I built and run. I troubleshoot from evidence, communicate clearly, and see fixes through.</p>
+        <div class="cta-actions">
+          <a class="btn btn-primary" href="https://wirehaired-isthmus-fd3.notion.site/VaultContext-Case-Study-3af6c9359d7f80e0b6b3cd4e93717a73" target="_blank" rel="noopener">Read the full case study <span class="arrow">→</span></a>
+          <a class="btn btn-ghost" href="https://drive.google.com/file/d/11MTVuGK_6MBkVVK7eYJAkE88ctUbrIOL/view?usp=sharing" target="_blank" rel="noopener">Résumé · Support Engineer</a>
+          <a class="btn btn-ghost" href="https://drive.google.com/file/d/1GDQlQJgwaOHUbbnv7sQWcFafRvpeAJCi/view?usp=sharing" target="_blank" rel="noopener">Résumé · Solutions Engineer</a>
+        </div>
+        <div class="resume-note">Two lenses on the same experience. Reach me at krisu2605@gmail.com</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div>
+        <div class="name">Kristel Talaver</div>
+        <div class="loc">Solutions &amp; Support Engineer · Hanoi, Vietnam</div>
+      </div>
+      <nav class="flinks">
+        <a href="mailto:krisu2605@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/kristel-talaver/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://vaultcontext.online" target="_blank" rel="noopener">Live app</a>
+        <a href="https://wirehaired-isthmus-fd3.notion.site/VaultContext-Case-Study-3af6c9359d7f80e0b6b3cd4e93717a73" target="_blank" rel="noopener">Case study</a>
+      </nav>
+    </div>
+  </footer>
+
+<script>
+  document.documentElement.classList.add('js');
+  (function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (e) { e.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (e, i) {
+      e.style.transitionDelay = Math.min(i * 40, 240) + 'ms';
+      io.observe(e);
+    });
+  })();
+</script>
+</body>
+</html>
