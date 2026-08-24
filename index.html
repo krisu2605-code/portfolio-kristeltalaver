@@ -471,7 +471,7 @@
     <div class="wrap">
       <div class="section-head reveal">
         <div class="eyebrow">Selected debugging</div>
-        <h2>Four failures, traced to root cause</h2>
+        <h2>Five failures, traced to root cause</h2>
         <p>Each one is real, verified live, and recorded in git history. The method was the same every time: reproduce it, read the evidence, fix the actual cause — or decide it isn't worth fixing.</p>
       </div>
 
@@ -528,7 +528,17 @@
             <div class="trace-row"><span class="trace-label">Cause</span><span class="trace-body"><span class="rootcause">Reproduced the rejection in pure SQL — a row-level-security interaction, not my front-end. Then cut the feature: it was redundant, and knowing when to stop is part of the job.</span></span></div>
           </div>
         </article>
-
+        <article class="incident reveal">
+          <div class="incident-top">
+            <span class="incident-id">INCIDENT · 05</span>
+          </div>
+          <h3>The renewal job that lied about its health</h3>
+          <div class="trace">
+            <div class="trace-row"><span class="trace-label">Symptom</span><span class="trace-body">Cron dashboard showed "enabled, firing on schedule" — but conflicts stopped being detected.</span></div>
+            <div class="trace-row"><span class="trace-label">Trace</span><span class="trace-body">Read the execution logs instead of the status. Every run was a 503 — the job was hitting a free-tier server that had spun down to sleep, failing before the renewal code ran.</span></div>
+            <div class="trace-row"><span class="trace-label">Cause</span><span class="trace-body">Passive monitoring: "enabled" means scheduled, not working. Fixed with a keep-alive so the service never idles, plus a 48-hour renewal window so one failure can't cause a lapse.</span></div>
+          </div>
+        </article>
       </div>
     </div>
   </section>
